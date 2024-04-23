@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interactive Data Visualization App</title>
+    <title>DataViz:Interactive Data Visualization App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Welcome to Interactive Data Visualization App!</h1>
+    <form action="{{ url_for('upload_dataset') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="dataset" accept=".csv,.xlsx,.xls">
+        <button type="submit">Upload Dataset</button>
+    </form>
 </body>
 </html>
