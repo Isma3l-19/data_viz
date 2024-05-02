@@ -7,9 +7,28 @@
 </head>
 <body>
     <h1>Uploaded Data</h1>
-        <div>
-            {{ data | safe }}
-        </div>
-        <a href="{{ url_for('index') }}">Back to Home</a>
+    <div>
+        {{ data | safe }}
+    </div>
+
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            {% if page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page - 1 }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page + 1 }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <a href="{{ url_for('index') }}">Back to Home</a>
 </body>
 </html>

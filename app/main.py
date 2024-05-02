@@ -71,15 +71,17 @@ def view_data(filename):
             # Unsupported file format
             return render_template("error.html", message="Unsupported file format. Only CSV, XLSX, and XLS files are allowed.")
         
-        # Pass the DataFrame to the view_data.html template
-        # df1000 reads the first 1000
-        df1000 = df.head(1000)
-        return render_template("view_data.html", data=df.to_html(index=False, max_rows=10))
-        #return render_template("view_data.html", data=paginate(df,page_size=10))
+        # Pagination logic
+        page = request.args.get('page', 1, type=int)
+        per_page = 10  # Number of rows per page
+        offset = (page - 1) * per_page
+        data = df.iloc[offset:offset + per_page]
+        
+        # Pass the data and pagination information to the view_data.html template
+        return render_template("view_data.html", data=data.to_html(index=False), page=page)
     except Exception as e:
         # Handle any exceptions
         return render_template("error.html", message=f"An error occurred: {str(e)}")
-
 
 if __name__ == "__main__":
     app.run(debug=True)
