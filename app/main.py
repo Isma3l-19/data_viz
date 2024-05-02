@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import pandas as pd
-from paginate_pandas import paginate
+#from paginate_pandas import paginate
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -74,8 +74,8 @@ def view_data(filename):
         # Pass the DataFrame to the view_data.html template
         # df1000 reads the first 1000
         df1000 = df.head(1000)
-        #return render_template("view_data.html", data=df.to_html(index=False, max_rows=10))
-        return render_template("view_data.html", data=paginate(df,page_size=10))
+        return render_template("view_data.html", data=df.to_html(index=False, max_rows=10))
+        #return render_template("view_data.html", data=paginate(df,page_size=10))
     except Exception as e:
         # Handle any exceptions
         return render_template("error.html", message=f"An error occurred: {str(e)}")
