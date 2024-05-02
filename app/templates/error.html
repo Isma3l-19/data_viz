@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DataViz: Error</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <h1>DataViz: An Error Occurred</h1>
+  <p>We encountered an issue while processing your dataset.</p>
+
+  {% if message %}
+    <p class="error-message">{{ message }}</p>
+  {% endif %}
+
+  <a href="{{ url_for('index') }}">Go back to Upload Dataset</a>
+</body>
+</html>
