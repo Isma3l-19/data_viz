@@ -24,9 +24,9 @@
     </label>
     <input type="file" id="file-upload" name="dataset" accept=".csv,.xlsx,.xls">
     <button type="submit">Submit</button>
-</form>
+  </form>
 
-<button id="viewDataBtn">View Uploaded Data</button>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+  <a href="{{ url_for('list_files') }}">View Uploaded Files</a> <!-- Place the link here -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

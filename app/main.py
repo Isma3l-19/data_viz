@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import pandas as pd
-#from paginate_pandas import paginate
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -44,8 +43,8 @@ def upload_dataset():
             return render_template('error.html', message="Unsupported file format. Only CSV, XLSX and XLS files are allowed.")
             
           #Processing complete, rendering the index.html
-          #Passing DataFrame as JSON for potential usage in the template 
-        return render_template('index.html', message="Dataset uploaded and processed successfuly!", data=df.to_json())
+          #Passing DataFrame as JSON for potential usage in the template
+        return render_template('index.html', message="Dataset uploaded and processed successfuly!", data=df.to_json())        
     except Exception as e:
             #Handle any exceptions during data processing
             return render_template('error.html', message=f"An error occured while processing the data: {str(e)}")
@@ -82,6 +81,15 @@ def view_data(filename):
     except Exception as e:
         # Handle any exceptions
         return render_template("error.html", message=f"An error occurred: {str(e)}")
+    
+@app.route("/list_files", methods=['GET'])
+def list_files():
+    # Get the list of files in the UPLOAD_FOLDER directory
+    files = os.listdir(app.config['UPLOAD_FOLDER'])
+    num_files = len(files)
+    
+    return render_template("file_list.html", num_files=num_files, files=files)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
