@@ -11,7 +11,12 @@
     <p>Total number of uploaded files: {{ num_files }}</p>
     <ul>
         {% for file in files %}
-            <li>{{ file }}</li>
+            <li>
+                <a href="{{ url_for('view_data', filename=file) }}">{{ file }}</a>
+                <form action="{{ url_for('delete_file', filename=file) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
     <a href="{{ url_for('index') }}">Back to Home</a>
