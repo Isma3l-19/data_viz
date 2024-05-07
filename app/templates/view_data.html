@@ -42,15 +42,7 @@
             </li>
         </ul>
     </nav>
-
-    <form action="{{ url_for('export_data') }}" method="POST">
-        <select name="export_format">
-          <option value="csv">CSV</option>
-          <option value="xlsx">Excel (XLSX)</option>
-        </select>
-        <button type="submit">Export Data</button>
-    </form>
-      
+  
     
     <a href="{{ url_for('index') }}">Back to Home</a>
 

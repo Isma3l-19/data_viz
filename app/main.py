@@ -72,7 +72,7 @@ def view_data(filename):
         else:
             # Unsupported file format
             return render_template("error.html", message="Unsupported file format. Only CSV, XLSX, and XLS files are allowed.")
-        
+                
         # Pagination logic
         page = request.args.get('page', 1, type=int)
         per_page = 10  # Number of rows per page
@@ -93,47 +93,7 @@ def list_files():
     
     return render_template("file_list.html", num_files=num_files, files=files)
 
-@app.route("/export_data", methods=['POST'])
-def export_data():
-    # Check if processed data exists from upload_dataset
-    if 'df' not in globals():
-        return render_template("error.html", message="No data uploaded or processed yet.")
 
-    export_format = request.form.get('export_format')
-    if not export_format or export_format not in ('csv', 'xlsx'):
-        return render_template("error.html", message="Invalid export format selected.")
-
-    try:
-        data_to_export = None
-        filename = f"processed_data.{export_format}"
-
-        # Export data based on chosen format
-        if export_format == 'csv':
-            data_to_export = globals()['df'].to_csv(index=False)
-            content_type = 'text/csv; charset=utf-8'
-        else:
-            wb = Workbook()
-            ws = wb.active
-            ws.title = "Processed Data"
-            for col_idx, col_name in enumerate(df.columns):
-                ws.cell(row=1, column=col_idx+1).value = col_name
-            for row_idx, row in df.iterrows():
-                for col_idx, value in enumerate(row):
-                    ws.cell(row=row_idx+2, column=col_idx+1).value = value
-            data_to_export = io.BytesIO()
-            wb.save(data_to_export)
-            data_to_export.seek(0)
-            content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-
-        # Set response headers for the chosen format
-        response = make_response(data_to_export)
-        response.headers['Content-Type'] = content_type
-        response.headers['Content-Disposition'] = f'attachment; filename={filename}'
-
-        return response
-
-    except Exception as e:
-        return render_template("error.html", message=f"An error occurred during export: {str(e)}")
 
 @app.route("/delete_file/<filename>", methods=['POST'])
 def delete_file(filename):
