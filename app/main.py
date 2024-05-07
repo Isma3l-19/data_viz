@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, make_response
+import io
 import os
 import pandas as pd
 from werkzeug.utils import secure_filename
+from openpyxl import Workbook
 
 app = Flask(__name__)
 
@@ -9,6 +11,7 @@ UPLOAD_FOLDER = 'app/data/uploads'
 ALLOWED_EXTENSIONS = {'csv', 'xlsx', 'xls'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = 'ismael123456789'
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -90,15 +93,61 @@ def list_files():
     
     return render_template("file_list.html", num_files=num_files, files=files)
 
+@app.route("/export_data", methods=['POST'])
+def export_data():
+    # Check if processed data exists from upload_dataset
+    if 'df' not in globals():
+        return render_template("error.html", message="No data uploaded or processed yet.")
+
+    export_format = request.form.get('export_format')
+    if not export_format or export_format not in ('csv', 'xlsx'):
+        return render_template("error.html", message="Invalid export format selected.")
+
+    try:
+        data_to_export = None
+        filename = f"processed_data.{export_format}"
+
+        # Export data based on chosen format
+        if export_format == 'csv':
+            data_to_export = globals()['df'].to_csv(index=False)
+            content_type = 'text/csv; charset=utf-8'
+        else:
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Processed Data"
+            for col_idx, col_name in enumerate(df.columns):
+                ws.cell(row=1, column=col_idx+1).value = col_name
+            for row_idx, row in df.iterrows():
+                for col_idx, value in enumerate(row):
+                    ws.cell(row=row_idx+2, column=col_idx+1).value = value
+            data_to_export = io.BytesIO()
+            wb.save(data_to_export)
+            data_to_export.seek(0)
+            content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+        # Set response headers for the chosen format
+        response = make_response(data_to_export)
+        response.headers['Content-Type'] = content_type
+        response.headers['Content-Disposition'] = f'attachment; filename={filename}'
+
+        return response
+
+    except Exception as e:
+        return render_template("error.html", message=f"An error occurred during export: {str(e)}")
+
 @app.route("/delete_file/<filename>", methods=['POST'])
 def delete_file(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     if os.path.exists(file_path):
         os.remove(file_path)
         flash("File deleted successfully", "success")
+        # Redirect to file list after successful deletion
+        return redirect(url_for('list_files'))
     else:
         flash("File not found", "error")
+        # Redirect to file list even if file not found
         return redirect(url_for('list_files'))
+
 
 
 if __name__ == "__main__":
