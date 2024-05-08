@@ -10,15 +10,15 @@
 <body>
   <h1>Welcome to Interactive Data Visualization App!</h1>
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class="flash-messages">
-        {% for msg in message %}
-          <li>{{ msg }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="flash {{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 
   <form action="{{ url_for('upload_dataset') }}" method="post" enctype="multipart/form-data">
     <label for="file-upload" class="custom-file-upload">

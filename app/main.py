@@ -94,7 +94,6 @@ def list_files():
     return render_template("file_list.html", num_files=num_files, files=files)
 
 
-
 @app.route("/delete_file/<filename>", methods=['POST'])
 def delete_file(filename):
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
