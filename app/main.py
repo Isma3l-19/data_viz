@@ -3,7 +3,6 @@ import io
 import os
 import pandas as pd
 from werkzeug.utils import secure_filename
-from openpyxl import Workbook
 
 app = Flask(__name__)
 
