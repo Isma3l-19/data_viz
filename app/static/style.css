@@ -1,9 +1,8 @@
 body {
-    background-image: url('images/background.jpg');   
-    background-repeat: no-repeat; /* Prevent image tiling */
-    background-position: center; /* Center the image */
-    background-size: cover; /* Stretch the image to cover the entire body */
-    
-      
-  }
-  
+  background: url("images/background2.jpg");
+  background-position: fill;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: aliceblue;
+ }
+

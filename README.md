@@ -35,14 +35,7 @@ Flash messages are displayed to provide feedback to the user after certain actio
 
 ## Integrating Plotly
 
-Work in progress. Plotly integration will allow users to generate interactive plots from their uploaded data.
-
-## Future Enhancements
-
-- Complete integration of Plotly for interactive data visualization.
-- Implement user authentication and authorization for secure access to the application.
-- Add support for additional file formats and data sources.
-- Improve user interface and overall user experience.
+Plotly integration will allow users to generate interactive plots from their uploaded data.
 
 ## Directory Structure
 
