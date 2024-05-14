@@ -2,6 +2,8 @@
 
 This is a Flask web application for interactive data visualization. Users can upload datasets in CSV, XLSX, or XLS format, view the uploaded data, and generate interactive plots using Plotly.
 
+![Screenshot](app/static/images/background2.jpg)
+
 ## Getting Started
 
 To run the application locally, follow these steps:
