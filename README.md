@@ -6,10 +6,13 @@ This is a Flask web application for interactive data visualization. Users can up
 
 To run the application locally, follow these steps:
 
-1. Clone this repository to your local machine.
-2. Install the required dependencies by running `pip install -r requirements.txt`.
-3. Run the Flask application by executing `python main.py`.
-4. Open a web browser and navigate to `http://localhost:5000` to access the application.
+1. Clone this repository to your local machine;
+    ```bash
+    git clone https://github.com/Isma3l-19/data_viz.git
+2. cd Dataviz
+3. Install the required dependencies by running `pip install -r requirements.txt`.
+4. Run the Flask application by executing `python main.py`.
+5. Open a web browser and navigate to `http://localhost:5000` to access the application.
 
 ## Features
 
@@ -35,7 +38,7 @@ Flash messages are displayed to provide feedback to the user after certain actio
 
 ## Integrating Plotly
 
-Plotly integration will allow users to generate interactive plots from their uploaded data.
+Plotly integration allows users to generate interactive plots from their uploaded data.
 
 ## Directory Structure
 
@@ -46,9 +49,15 @@ Plotly integration will allow users to generate interactive plots from their upl
 - `main.py`: Main Flask application file.
 - `requirements.txt`: List of Python dependencies.
 
-## Contributors
+## Contributing
 
-- Ismael Nyambu
+Contributers are welcomed! If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create your feature branch('git checkout -b feature/YourFeature') .
+3. Commit your changes('git commit -am "Add some feature"').
+4. Push to the branch ('git push origin feature/YourFeature').
+5. Create a new Pull Request.
 
 ## License
 
