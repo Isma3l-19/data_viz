@@ -1,14 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Handle click event on the "Generate Plot" button
     document.getElementById("generate-plot-btn").addEventListener("click", function() {
-        // Get the selected plot type
         var plotType = document.getElementById("plot-type").value;
+        var xColumn = document.getElementById("x-axis").value;
+        var yColumn = document.getElementById("y-axis").value;
 
-        // Dummy data for demonstration
-        var x = [1, 2, 3, 4, 5];
-        var y = [10, 15, 13, 17, 18];
+        var x = jsonData.map(row => row[xColumn]);
+        var y = jsonData.map(row => row[yColumn]);
 
-        // Create a Plotly trace based on the selected plot type
         var trace;
         if (plotType === 'scatter') {
             trace = {
@@ -27,26 +25,28 @@ document.addEventListener("DOMContentLoaded", function() {
             trace = {
                 x: x,
                 y: y,
-                type: 'line'
+                type: 'scatter',
+                mode: 'lines'
+            };
+        } else if (plotType === 'pie') {
+            trace = {
+                labels: x,
+                values: y,
+                type: 'pie'
             };
         }
-        // Add more conditions for other plot types as needed
 
-        // Create a Plotly data array
-        var data = [trace];
-
-        // Define Plotly layout
+        var plotData = [trace];
         var layout = {
             title: 'Generated Plot',
             xaxis: {
-                title: 'X-axis'
+                title: xColumn
             },
             yaxis: {
-                title: 'Y-axis'
+                title: yColumn
             }
         };
 
-        // Plot the data
-        Plotly.newPlot('plot', data, layout);
+        Plotly.newPlot('plot', plotData, layout);
     });
 });
