@@ -1,52 +1,31 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("generate-plot-btn").addEventListener("click", function() {
-        var plotType = document.getElementById("plot-type").value;
-        var xColumn = document.getElementById("x-axis").value;
-        var yColumn = document.getElementById("y-axis").value;
+document.getElementById('generate-plot-btn').addEventListener('click', function() {
+    const xAxis = document.getElementById('x-axis').value;
+    const yAxis = document.getElementById('y-axis').value;
+    const plotType = document.getElementById('plot-type').value;
+    const filename = this.getAttribute('data-filename');
 
-        var x = jsonData.map(row => row[xColumn]);
-        var y = jsonData.map(row => row[yColumn]);
-
-        var trace;
-        if (plotType === 'scatter') {
-            trace = {
-                x: x,
-                y: y,
-                mode: 'markers',
-                type: 'scatter'
-            };
-        } else if (plotType === 'bar') {
-            trace = {
-                x: x,
-                y: y,
-                type: 'bar'
-            };
-        } else if (plotType === 'line') {
-            trace = {
-                x: x,
-                y: y,
-                type: 'scatter',
-                mode: 'lines'
-            };
-        } else if (plotType === 'pie') {
-            trace = {
-                labels: x,
-                values: y,
-                type: 'pie'
-            };
+    fetch('/generate_plot', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ filename: filename, x_axis: xAxis, y_axis: yAxis })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Error:', data.error);
+            return;
         }
+        const plotData = [{
+            x: data.x,
+            y: data.y,
+            type: plotType
+        }];
 
-        var plotData = [trace];
-        var layout = {
-            title: 'Generated Plot',
-            xaxis: {
-                title: xColumn
-            },
-            yaxis: {
-                title: yColumn
-            }
-        };
-
-        Plotly.newPlot('plot', plotData, layout);
+        Plotly.newPlot('plot', plotData);
+    })
+    .catch(error => {
+        console.error('Error generating plot:', error);
     });
 });

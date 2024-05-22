@@ -5,4 +5,14 @@ body {
   background-repeat: no-repeat;
   color: aliceblue;
  }
+ .table-bordered {
+  border: 1px solid black;
+}
 
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid black;
+}
+table, th, td {
+  border: 1px solid black;
+}
